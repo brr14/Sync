@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Analysis Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background-image: url("{% static 'music/images/bg1.jpeg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Georgia', serif;
+            color: #f9f4e7; /* Light beige tone */
+        }
+    
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+
+        .navbar a {
+            color: #f9f4e7; /* Beige tone for links */
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            background-color: #b9925e; /* Golden beige for hover and active states */
+            color: #0f243e; /* Navy blue for contrast */
+        }
+    
+        .quiz-container {
+            margin-top: 1500px; /* Push the quiz container below the navbar */
+            background: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+            border: 2px solid #f9f4e7; /* Light beige border */
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            margin: 20px auto;
+        }
+    
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    
+        .quiz-header h1 {
+            color: #f9f4e7;
+            margin-bottom: 10px;
+        }
+    
+        .quiz-question {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(249, 244, 231, 0.8); /* Light beige with transparency */
+        }
+    
+        .quiz-question h3 {
+            color: #0f243e; /* Navy blue text */
+            margin-bottom: 15px;
+        }
+    
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    
+        .quiz-btn {
+            background-color: #8c6c3b; /* Golden brown */
+            color: #f9f4e7; /* Beige text */
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+        }
+    
+        .quiz-btn:hover {
+            background-color: #b9925e; /* Lighter golden tone */
+        }
+    
+        .quiz-btn.selected {
+            background-color: #b9925e;
+            box-shadow: 0 0 0 2px #8c6c3b;
+        }
+    
+        #submit-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #8c6c3b;
+            color: #f9f4e7;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            font-weight: 600;
+        }
+    
+        #submit-btn:hover {
+            background-color: #b9925e;
+        }
+    
+        #playlist-result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(249, 244, 231, 0.8);
+        }
+    
+        #playlist-result h2 {
+            color: #f9f4e7;
+            margin-bottom: 20px;
+        }
+    
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f4e7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+    
+        .song-item:hover {
+            transform: translateX(5px);
+        }
+    
+        .song-info h3 {
+            color: #0f243e;
+            margin-bottom: 5px;
+        }
+    
+        .song-info p {
+            color: #6e7c96;
+            font-size: 14px;
+        }
+    
+        .loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 15px;
+            }
+    
+            .quiz-header h1 {
+                font-size: 24px;
+            }
+    
+            .quiz-question h3 {
+                font-size: 18px;
+            }
+    
+            .quiz-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'landing' %}">Home</a>
+        <a href="{% url 'personality_quiz' %}" class="active">Personality Analysis</a>
+        <a href="{% url 'match' %}" >Match Profiles</a>
+        <a href="{% url 'profile' %}" >Profile</a>
+        <a href="{% url 'logout' %}" >Logout</a>
+    </nav>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Discover Your Musical Personality</h1>
+            <p>Answer the questions to get your personalized playlist!</p>
+        </div>
+        {% csrf_token %}
+        <form id="personality-quiz">
+            <!-- Questions -->
+            <div class="quiz-question">
+                <h3>Choose your favorite genre:</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="indie">Indie</button>
+                    <button type="button" class="quiz-btn" data-genre="pop">Pop</button>
+                    <button type="button" class="quiz-btn" data-genre="rock">Rock</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Pick a mood:</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="chill">Chill</button>
+                    <button type="button" class="quiz-btn" data-genre="energetic">Energetic</button>
+                    <button type="button" class="quiz-btn" data-genre="romantic">Romantic</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>What describes your vibe?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="groovy">Groovy</button>
+                    <button type="button" class="quiz-btn" data-genre="mellow">Mellow</button>
+                    <button type="button" class="quiz-btn" data-genre="bold">Bold</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>What instrument stands out to you?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="guitar">Guitar</button>
+                    <button type="button" class="quiz-btn" data-genre="piano">Piano</button>
+                    <button type="button" class="quiz-btn" data-genre="drums">Drums</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Favorite decade for music?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="80s">80s</button>
+                    <button type="button" class="quiz-btn" data-genre="90s">90s</button>
+                    <button type="button" class="quiz-btn" data-genre="2000s">2000s</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>What's your energy level?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="upbeat">Upbeat</button>
+                    <button type="button" class="quiz-btn" data-genre="relaxed">Relaxed</button>
+                    <button type="button" class="quiz-btn" data-genre="intense">Intense</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Pick a theme:</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="summer">Summer</button>
+                    <button type="button" class="quiz-btn" data-genre="rainy">Rainy</button>
+                    <button type="button" class="quiz-btn" data-genre="party">Party</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Favorite activity:</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="dance">Dance</button>
+                    <button type="button" class="quiz-btn" data-genre="study">Study</button>
+                    <button type="button" class="quiz-btn" data-genre="workout">Workout</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Which element resonates with you?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="fire">Fire</button>
+                    <button type="button" class="quiz-btn" data-genre="water">Water</button>
+                    <button type="button" class="quiz-btn" data-genre="earth">Earth</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>What’s your favorite tempo?</h3>
+                <div class="quiz-options">
+                    <button type="button" class="quiz-btn" data-genre="fast">Fast</button>
+                    <button type="button" class="quiz-btn" data-genre="medium">Medium</button>
+                    <button type="button" class="quiz-btn" data-genre="slow">Slow</button>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn">Generate Playlist</button>
+        </form>
+
+        <div id="playlist-result" style="display: none;">
+            <h2>Your Personalized Playlist</h2>
+            <div id="playlist-container"></div>
+        </div>
+    </div>-
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('personality-quiz');
+            const buttons = document.querySelectorAll('.quiz-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const userId = 123; // Replace with the actual user ID dynamically if needed
+
+            let selectedGenres = new Set();
+
+            // Handle genre button selection
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const genre = this.dataset.genre;
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selectedGenres.delete(genre);
+                    } else {
+                        this.classList.add('selected');
+                        selectedGenres.add(genre);
+                    }
+                });
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                if (selectedGenres.size === 0) {
+                    alert('Please select at least one option.');
+                    return;
+                }
+
+                const genresArray = Array.from(selectedGenres);
+
+                try {
+                    submitBtn.textContent = 'Generating...';
+                    submitBtn.disabled = true;
+
+                    // Save preferences to the database
+                    await savePreferences(userId, genresArray, csrfToken);
+
+                    // Fetch playlist
+                    const url = `https://spotify23.p.rapidapi.com/search/?q=${encodeURIComponent(genresArray.join(','))}&type=tracks&offset=0&limit=10`;
+
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-RapidAPI-Key': '44dc437039msh8a2f7e0807839d7p13cb9djsn4f2341fd3a9c',
+                            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com',
+                        },
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('API Response:', errorText);
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const tracks = data.tracks?.items || [];
+
+                    if (tracks.length === 0) {
+                        throw new Error('No tracks found for the selected genres.');
+                    }
+
+                    displayPlaylist(tracks);
+                } catch (error) {
+                    console.error('Error details:', error);
+                    alert('An error occurred while generating your playlist. Please try again.');
+                } finally {
+                    submitBtn.textContent = 'Generate Playlist';
+                    submitBtn.disabled = false;
+                }
+            });
+
+            async function savePreferences(userId, genres, csrfToken) {
+    try {
+        const response = await fetch('/save-preferences/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ genres }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Save Preferences Response:', errorText);
+            throw new Error(`Failed to save preferences: ${response.status}`);
+        }
+
+        console.log('Preferences saved successfully.');
+    } catch (error) {
+        console.error('Error saving preferences:', error);
+        alert('An error occurred while saving your preferences.');
+    }
+}
+
+            // Display playlist
+            function displayPlaylist(tracks) {
+                const playlistContainer = document.getElementById('playlist-container');
+                playlistContainer.innerHTML = ''; // Clear previous playlist content
+
+                tracks.forEach(track => {
+                    const trackName = track?.data?.name || 'Unknown Track';
+                    const artists = track?.data?.artists?.items?.map(artist => artist?.profile?.name).join(', ') || 'Unknown Artist';
+                    const album = track?.data?.albumOfTrack?.name || 'Unknown Album';
+
+                    const songItem = document.createElement('div');
+                    songItem.classList.add('song-item');
+
+                    songItem.innerHTML = `
+                        <div class="song-info">
+                            <h3>${trackName}</h3>
+                            <p>Artist: ${artists}</p>
+                            <p>Album: ${album}</p>
+                        </div>
+                    `;
+                    playlistContainer.appendChild(songItem);
+                });
+
+                document.getElementById('playlist-result').style.display = 'block';
+            }
+        });
+    </script>
+        
+</body>
+</html>

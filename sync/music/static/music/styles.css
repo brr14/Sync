@@ -1,0 +1,152 @@
+/* Existing CSS */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('../images/download.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+  text-align: center;
+  min-height: 100vh;
+}
+
+
+/* Headings */
+h1,
+h2 {
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 40px 0;
+}
+
+/* Mood Container */
+
+.emoji {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.mood-btn {
+  background-color: #16013f; /* Darker maroon */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.mood-btn:hover {
+  background-color: #990026; /* Lighter maroon */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mood-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mood-card {
+    background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+    border-radius: 15px;
+    padding: 25px;
+    width: 80%;
+    max-width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #f9f4e7; /* Beige tone for text */
+}
+
+
+
+/* Keep the existing auth-section and profile styles, but update their colors to match the maroon theme */
+.auth-section {
+  background: url('sync/music/static/music/images/download.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.auth-card {
+  background: rgba(128, 0, 32, 0.9);
+  color: #6a0909;
+}
+
+.auth-card button {
+  background-color: #600018;
+}
+
+.auth-card button:hover {
+  background-color: #990026;
+}
+
+/* Profile section color updates */
+#profile {
+  background: rgba(128, 0, 32, 0.95);
+  color: #a5660c;
+}
+
+#profile h1,
+#profile h2 {
+  color: #860a0a;
+}
+
+#save-profile {
+  background: #600018;
+}
+
+#save-profile:hover {
+  background: #990026;
+}
+
+/* New Features */
+
+/* Welcome Message */
+.welcome-message {
+  margin: 20px 0;
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Music Quote of the Day */
+.music-quote {
+  margin: 30px auto;
+  padding: 20px;
+  max-width: 600px;
+  font-size: 1.2rem;
+  font-style: italic;
+  background-color: rgba(128, 0, 32, 0.85);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Quick Mood Presets */
+.mood-preset-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.mood-preset {
+  background-color: #600018;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mood-preset:hover {
+  background-color: #990026;
+}
+}

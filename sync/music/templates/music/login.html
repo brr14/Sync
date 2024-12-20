@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    {% load static %}
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("{% static 'music/images/bg1.jpeg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Georgia', serif;
+            color: #f9f4e7; /* Light beige tone matching the border of the rug */
+        }
+
+        .auth-card-container {
+          position: fixed;  /* Changed from relative */
+          top: 50%;        /* Added for perfect centering */
+          left: 50%;       /* Added for perfect centering */
+          transform: translate(-50%, -50%);  /* Added for perfect centering */
+          width: auto;     /* Ensure full width is available */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .auth-card {
+            background: rgba(15, 36, 62, 0.85); /* Deep navy blue with slight transparency */
+            border: 2px solid #f9f4e7; /* Light beige border matching the floral patterns */
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            max-width: auto;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            color: #f9f4e7; /* Matching text color to the beige tones */
+            margin-bottom: 15px;
+        }
+
+        .auth-card form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-card label {
+            margin-top: 10px;
+            color: #f9f4e7; /* Light beige tone */
+        }
+
+        .auth-card input {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #f9f4e7; /* Light beige tone border */
+            border-radius: 4px;
+            background-color: #f9f4e7; /* Light beige input background */
+            color: #0f243e; /* Navy blue text color */
+        }
+
+        .auth-card input::placeholder {
+            color: #6e7c96; /* Muted placeholder color */
+        }
+
+        .auth-card button {
+            padding: 10px;
+            background-color: #8c6c3b; /* Golden brown matching floral details */
+            color: #f9f4e7; /* Beige text color */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .auth-card button:hover {
+            background-color: #b9925e; /* Lighter golden tone for hover effect */
+        }
+
+        .auth-card p {
+            text-align: center;
+            margin-top: auto;
+            color: #f9f4e7; /* Light beige tone */
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card-container">
+        <div class="auth-card">
+            <h2>Login</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="{% url 'register' %}" style="color: #fddc8f;">Register here</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personality Analysis</title>
+  <link rel="stylesheet" href="{% static 'music/styles.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    background-image: url("{% static 'music/images/bg1.jpeg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Georgia', serif;
+    color: #f9f4e7; /* Light beige tone */
+}
+
+.mood-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.navbar a {
+    color: #f9f4e7; /* Beige tone for links */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover, .navbar a.active {
+    background-color: #b9925e; /* Golden beige for hover and active states */
+    color: #0f243e; /* Navy blue for contrast */
+}
+    
+
+.mood-btn.selected {
+    background-color: #b9925e; /* Golden beige for selection */
+    color: #0f243e; /* Navy blue for contrast */
+}
+
+#mood-message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #f9f4e7; /* Beige tone for mood message */
+    text-align: center;
+}
+.mood-card {
+    background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+    border-radius: 15px;
+    padding: 25px;
+    width: 80%;
+    max-width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #f9f4e7; /* Beige tone for text */
+}
+
+.mood-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="{% url 'landing' %}" class="active">Home</a>
+    <a href="{% url 'personality_quiz' %}" >Personality Analysis</a>
+    <a href="{% url 'match' %}">Match Profiles</a>
+    <a href="{% url 'profile' %}">Profile</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </nav>
+
+  <!-- Mood Selection Section -->
+  <section id="mood-selection">
+    <h1 class="highlighted">How are you feeling today?</h1>
+    
+    <!-- Mood Container -->
+    <div class="mood-container">
+      <div class="mood-card">
+        <div class="emoji">😊</div>
+        <button class="mood-btn" data-mood="happy">Happy</button>
+      </div>
+      <div class="mood-card">
+        <div class="emoji">😔</div>
+        <button class="mood-btn" data-mood="sad">Sad</button>
+      </div>
+      <div class="mood-card">
+        <div class="emoji">😌</div>
+        <button class="mood-btn" data-mood="moody">Moody</button>
+      </div>
+      <div class="mood-card">
+        <div class="emoji">😃</div>
+        <button class="mood-btn" data-mood="excited">Excited</button>
+      </div>
+      <div class="mood-card">
+        <div class="emoji">😡</div>
+        <button class="mood-btn" data-mood="angry">Angry</button>
+      </div>
+      <div class="mood-card">
+        <div class="emoji">😌</div>
+        <button class="mood-btn" data-mood="calm">Calm</button>
+      </div>
+    </div>
+    
+
+    <!-- Message Display -->
+    <div id="mood-message"></div>
+  </section>
+
+  <!-- Inline JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const moodButtons = document.querySelectorAll('.mood-btn');
+      const messageDiv = document.getElementById('mood-message');
+
+      moodButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove 'selected' class from all buttons
+          moodButtons.forEach(btn => btn.classList.remove('selected'));
+
+          // Add 'selected' class to the clicked button
+          button.classList.add('selected');
+
+          // Update the mood message
+          const mood = button.getAttribute('data-mood');
+          messageDiv.textContent = `You selected: ${mood.charAt(0).toUpperCase() + mood.slice(1)}.`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

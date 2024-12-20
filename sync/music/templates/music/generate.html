@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Playlists</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'music/styles.css' %}">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    #generated-playlist {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .playlists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      justify-items: center;
+    }
+
+    .playlist-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+      max-width: 240px;
+    }
+
+    .playlist-card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .playlist-card h2 {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      margin: 0;
+    }
+
+    .playlist-card a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 1rem 0;
+      text-decoration: none;
+      background-color: #1db954;
+      color: #fff;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .playlist-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 600px) {
+      .playlists-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .playlist-card {
+        max-width: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href=# class="active">Home</a>
+        <a href=# class="active">Mood & Activity Selection</a>
+        <a href=#>Playlist</a>
+        <a href=#>Profile</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      </nav>
+  <section id="generated-playlist">
+    <h1>Playlists for "{{ mood }}" and "{{ activity }}"</h1>
+    <div class="playlists-grid">
+      {% for playlist in playlists %}
+        <div class="playlist-card">
+          {% if playlist.image %}
+            <img src="{{ playlist.image }}" alt="{{ playlist.name }}">
+          {% endif %}
+          <h2>{{ playlist.name }}</h2>
+          <a href="{{ playlist.url }}" target="_blank" class="btn-primary">Open in Spotify</a>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</body>
+</html>

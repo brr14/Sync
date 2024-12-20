@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile</title>
+  <!-- <link rel="stylesheet" href="{% static 'music/styles.css' %}"> -->
+  <style>
+   /* Original Style */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Georgia', serif;
+    color: #b09e71; /* Beige tone for text */
+    background-image: url("{% static 'music/images/bg1.jpeg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.navbar a {
+    color: #f9f4e7; /* Beige tone for links */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover, .navbar a.active {
+    background-color: #b9925e; /* Golden beige for hover and active states */
+    color: #0f243e; /* Navy blue for contrast */
+}
+
+.container {
+    max-width: 900px;
+    margin: 100px auto 0; /* Add margin to avoid overlap with navbar */
+    padding: 30px;
+    text-align: center;
+    background: rgba(15, 36, 62, 0.9); /* Deep navy blue with transparency */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    color: #fddc8f; /* Golden tone for headings */
+    margin-bottom: 25px;
+}
+
+.match-card {
+    background: rgba(249, 244, 231, 0.95); /* Light beige with slight transparency */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 15px 0;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s ease-in-out;
+}
+
+.match-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.profile-pic {
+    float: left;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 2px solid #b9925e; /* Golden border for profile pictures */
+}
+
+.match-info h3 {
+    margin: 0;
+    
+}
+
+.match-percentage {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #6d1f47; /* Deep plum for match percentage */
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.button {
+    padding: 12px 20px;
+    background-color: #8c6c3b; /* Golden brown for buttons */
+    color: #f9f4e7; /* Beige text color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #b9925e; /* Lighter golden tone for hover */
+    transform: translateY(-3px);
+}
+
+/* New Profile Section */
+#profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: rgba(15, 36, 62, 0.9); /* Deep navy blue with transparency */
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #f9f4e7; /* Beige tone for text */
+}
+
+.profile-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #b9925e; /* Golden beige for image border */
+    margin-bottom: 20px;
+}
+
+.profile-card h1 {
+    font-size: 28px;
+    color: #f9f4e7; /* Beige tone for heading */
+    margin: 10px 0;
+}
+
+.profile-card p.email {
+    font-size: 16px;
+    font-weight: bold;
+    color: #b09e71; /* Lighter beige tone for email */
+    margin-bottom: 20px;
+}
+
+.profile-details {
+    background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #f9f4e7; /* Beige tone for text */
+}
+
+.profile-details p {
+    font-size: 18px;
+    color: #f9f4e7; /* Beige tone for profile details */
+    margin: 10px 0;
+}
+
+.profile-details p span {
+    font-weight: bold;
+    color: #b09e71; /* Lighter beige tone for bold text */
+}
+
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="{% url 'landing' %}">Home</a>
+    <a href="{% url 'personality_quiz' %}"> Personality Analysis</a>
+    <a href="{% url 'match' %}">Match Profiles</a>
+    <a href="{% url 'profile' %}"class="active">Profile</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </nav>
+
+  <!-- Profile Section -->
+<section id="profile">
+  <div class="profile-card">
+
+
+    {% if user.profile.profile_picture %}
+      <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+      <img src="{% static 'music/default-profile.png' %}" alt="Default Profile Picture">
+    {% endif %}
+
+    <!-- Display Name -->
+    <h1>{{ user.username }}</h1>
+
+    <!-- Display Email -->
+    <p class="email">{{ user.email }}</p>
+
+    <!-- Profile Details (Bio, Age, Personality Type, Preferred Genres) -->
+    <div class="profile-details">
+      <!-- Age -->
+      <p><span>Age:</span> {% if user.profile.age %}{{ user.profile.age }}{% else %}Not provided{% endif %}</p>
+
+      <!-- Bio -->
+      <p><span>Bio:</span> {% if user.profile.bio %}{{ user.profile.bio }}{% else %}No bio available{% endif %}</p>
+
+    </div>
+
+  </div>
+</section>
+
+
+  <script src="{% static 'music/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url("{% static 'music/images/bg1.jpeg' %}") no-repeat center center/cover;
+      color: #f9f4e7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .auth-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      margin: 20px 0;
+      background: rgba(15, 36, 62, 0.85);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h1.highlighted {
+      font-size: 2rem;
+      text-align: center;
+      margin: 0 0 20px 0;
+      text-transform: uppercase;
+      color: #f9f4e7;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-height: calc(90vh - 100px);
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f9f4e7;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .auth-card::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .auth-card::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .auth-card::-webkit-scrollbar-thumb {
+      background: #8c6c3b;
+      border-radius: 4px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #f9f4e7;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border: 1px solid #f9f4e7;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #f9f4e7;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #d1d1d1;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #8c6c3b;
+      color: #f9f4e7;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #b9925e;
+    }
+
+    .link-primary {
+      color: #fddc8f;
+      text-decoration: none;
+      margin-top: 15px;
+      display: block;
+      text-align: center;
+    }
+
+    .link-primary:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <section id="auth" class="auth-section">
+    <h1 class="highlighted">Register</h1>
+    <div class="auth-card">
+      <form id="register-form" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="register-username">Username:</label>
+          <input type="text" name="username" id="register-username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="register-email">Email:</label>
+          <input type="email" name="email" id="register-email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="register-password">Password:</label>
+          <input type="password" name="password" id="register-password" placeholder="Enter your password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="register-confirm-password">Confirm Password:</label>
+          <input type="password" name="confirm_password" id="register-confirm-password" placeholder="Confirm your password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="register-age">Age:</label>
+          <input type="number" name="age" id="register-age" placeholder="Enter your age">
+        </div>
+
+        <div class="form-group">
+          <label for="register-bio">Bio:</label>
+          <textarea name="bio" id="register-bio" placeholder="Tell us about yourself"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="register-profile-picture">Profile Picture:</label>
+          <input type="file" name="profile_picture" id="register-profile-picture">
+        </div>
+
+        <button type="submit">Register</button>
+        <a href="#" class="link-primary">Already have an account? Login here</a>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

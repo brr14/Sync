@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {%load static%}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("{% static 'music/images/bg1.jpeg' %}") center center fixed;
+      background-size: cover;
+      font-family: 'Georgia', serif;
+    }
+
+    .container {
+      background: rgba(15, 36, 62, 0.85);
+      border: 2px solid #f9f4e7;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+      margin: 20px;
+    }
+
+    .container h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2rem;
+      color: #f9f4e7;
+    }
+
+    .container p {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.125rem;
+      color: #f9f4e7;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .button-container a {
+      text-decoration: none;
+      color: #f9f4e7;
+      background-color: #8c6c3b;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      min-width: 100px;
+    }
+
+    .button-container a:hover {
+      background-color: #b9925e;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .button-container {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .button-container a {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Sync</h1>
+    <p>Find your perfect match now</p>
+    <div class="button-container">
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Register</a>
+    </div>
+  </div>
+</body>
+</html>

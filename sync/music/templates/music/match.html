@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Matches</title>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Georgia', serif;
+            color: #b09e71; /* Beige tone for text */
+            background-image: url("{% static 'music/images/bg1.jpeg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 36, 62, 0.85); /* Deep navy blue with transparency */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+    
+        .navbar a {
+            color: #f9f4e7; /* Beige tone for links */
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        .navbar a:hover, .navbar a.active {
+            background-color: #b9925e; /* Golden beige for hover and active states */
+            color: #0f243e; /* Navy blue for contrast */
+        }
+    
+        .container {
+            max-width: 900px;
+            margin: 100px auto 0; /* Add margin to avoid overlap with navbar */
+            padding: 30px;
+            text-align: center;
+            background: rgba(15, 36, 62, 0.9); /* Deep navy blue with transparency */
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+    
+        h1 {
+            color: #fddc8f; /* Golden tone for headings */
+            margin-bottom: 25px;
+        }
+    
+        .match-card {
+            background: rgba(249, 244, 231, 0.95); /* Light beige with slight transparency */
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 15px 0;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s ease-in-out;
+        }
+    
+        .match-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+    
+        .profile-pic {
+            float: left;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #b9925e; /* Golden border for profile pictures */
+        }
+    
+        .match-info h3 {
+            margin: 0;
+            color: #6d1f47; /* Deep plum for match names */
+        }
+    
+        .match-percentage {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #6d1f47; /* Deep plum for match percentage */
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    
+        .button {
+            padding: 12px 20px;
+            background-color: #8c6c3b; /* Golden brown for buttons */
+            color: #f9f4e7; /* Beige text color */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        .button:hover {
+            background-color: #b9925e; /* Lighter golden tone for hover */
+            transform: translateY(-3px);
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'landing' %}" >Home</a>
+        <a href="{% url 'personality_quiz' %}">Personality Analysis</a>
+        <a href="{% url 'match' %}"class="active">Match Profiles</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <div class="container" data-aos="fade-up">
+        <h1>Find Your Musical Matches</h1>
+        {% for match in matches %}
+        <div class="match-card" data-aos="zoom-in">
+            <img class="profile-pic" src="{{ match.profile_picture|default:'https://via.placeholder.com/80' }}" alt="Profile Picture">
+            <div class="match-info">
+                <h3>{{ match.username }}</h3>
+                <p>{{ match.bio }}</p>
+            </div>
+            <div class="match-percentage">{{ match.match_percentage|floatformat:2 }}%</div>
+        </div>
+        {% empty %}
+        <p class="no-matches">No matches found. Try updating your preferences!</p>
+        {% endfor %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+    </script>
+</body>
+</html>
